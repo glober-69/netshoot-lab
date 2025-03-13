@@ -215,9 +215,9 @@ kubectl delete pod netshoot-diagnostic -n simple-app
 kubectl delete namespace simple-app
 ```
 
-# Guía de Troubleshooting de para app
+# Ejercicio de Troubleshooting de para app
 
-Esta guía te ayudará a diagnosticar y resolver problemas de conectividad en Kubernetes usando Netshoot
+Este ejercicio te ayudará a diagnosticar y resolver problemas de conectividad en Kubernetes usando Netshoot
 
 ## Preparación del Entorno
 
