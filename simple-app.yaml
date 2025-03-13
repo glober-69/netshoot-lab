@@ -1,0 +1,125 @@
+---
+# Namespace para la aplicación simple
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: simple-app
+---
+# Web Server Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+  namespace: simple-app
+  labels:
+    app: web-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+---
+# Web Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-server
+  namespace: simple-app
+spec:
+  selector:
+    app: web-server
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+# Database Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: simple-app
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "password"
+        - name: MYSQL_DATABASE
+          value: "testdb"
+---
+# Database Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: simple-app
+spec:
+  selector:
+    app: database
+  ports:
+  - port: 3306
+    targetPort: 3306
+  type: ClusterIP
+---
+# Cache Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache
+  namespace: simple-app
+  labels:
+    app: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+---
+# Cache Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache
+  namespace: simple-app
+spec:
+  selector:
+    app: cache
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: ClusterIP
