@@ -215,4 +215,43 @@ kubectl delete pod netshoot-diagnostic -n simple-app
 kubectl delete namespace simple-app
 ```
 
+# Guía de Troubleshooting de para app
+
+Esta guía te ayudará a diagnosticar y resolver problemas de conectividad en Kubernetes usando Netshoot
+
+## Preparación del Entorno
+
+### 1. Aplicar los Manifiestos
+
+Primero, aplica los manifiestos que contienen la aplicación frontend/backend y la NetworkPolicy problemática:
+
+```bash
+kubectl apply -f app.yaml
+```
+
+Luego, despliega los pods de Netshoot para diagnóstico:
+
+```bash
+kubectl apply -f netshoot.yaml
+```
+
+### 2. Verificar el Despliegue
+
+Asegúrate de que todos los pods están ejecutándose:
+
+```bash
+kubectl get pods -n app-example
+```
+
+## Diagnóstico del Problema
+
+### 1. Verificar la Conectividad
+
+Intenta establecer conexión desde el pod Netshoot hacia el backend:
+
+```bash
+kubectl exec -n app-example netshoot -- curl -s --connect-timeout 5 backend:8080
+```
+
+Este comando debería fallar. Resuleve el problema de conectividad
 
